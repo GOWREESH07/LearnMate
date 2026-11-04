@@ -1,0 +1,243 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─────────────────────────────────────────────
+   DESIGN TOKENS
+────────────────────────────────────────────── */
+
+@layer base {
+  :root {
+    /* Paper-warm light mode */
+    --background: 38 35% 92%;        /* #F5F0E8 paper */
+    --foreground: 0 0% 10%;          /* #1A1A1A ink */
+
+    --card: 0 0% 100%;               /* white card surfaces */
+    --card-foreground: 0 0% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 10%;
+
+    --primary: 152 38% 30%;          /* #2D6A4F forest ink */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 38 20% 85%;         /* warm off-white */
+    --secondary-foreground: 0 0% 10%;
+
+    --muted: 0 0% 42%;               /* #6B7280 */
+    --muted-foreground: 0 0% 60%;
+
+    --accent: 24 72% 55%;            /* #E07B39 amber */
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 38 20% 80%;
+    --input: 38 20% 80%;
+    --ring: 152 38% 30%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    /* Deep forest night */
+    --background: 152 30% 8%;        /* #0F1A14 */
+    --foreground: 38 30% 92%;        /* warm off-white text */
+
+    --card: 152 25% 12%;
+    --card-foreground: 38 30% 92%;
+
+    --popover: 152 25% 12%;
+    --popover-foreground: 38 30% 92%;
+
+    --primary: 152 38% 45%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 152 20% 18%;
+    --secondary-foreground: 38 30% 92%;
+
+    --muted: 152 15% 35%;
+    --muted-foreground: 152 10% 55%;
+
+    --accent: 24 72% 55%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 63% 40%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 152 20% 20%;
+    --input: 152 20% 20%;
+    --ring: 152 38% 45%;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   BASE STYLES
+────────────────────────────────────────────── */
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings: "kern" 1, "liga" 1;
+  }
+
+  h1, h2, h3 {
+    @apply font-serif;
+    letter-spacing: -0.02em;
+  }
+
+  h4, h5, h6 {
+    @apply font-sans font-semibold;
+  }
+
+  /* Monospace for stats/numbers */
+  .stat-value,
+  .timestamp,
+  .score-value {
+    @apply font-mono;
+  }
+
+  /* Focus ring aligned to brand */
+  :focus-visible {
+    @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-background;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-border rounded-full;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-muted;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   COMPONENT UTILITIES
+────────────────────────────────────────────── */
+
+@layer components {
+  /* Notebook-style section divider */
+  .section-rule {
+    @apply border-t border-border my-6;
+  }
+
+  /* Margin-note callout — signature AI recommendation element */
+  .margin-note {
+    @apply relative pl-4 border-l-2 border-accent/60 text-sm text-muted-foreground italic;
+  }
+
+  .margin-note::before {
+    content: "✦";
+    @apply absolute -left-2.5 top-0 text-accent text-xs font-mono not-italic;
+  }
+
+  /* Topic state badge */
+  .state-badge {
+    @apply inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-2xs font-mono font-medium uppercase tracking-wide;
+  }
+
+  .state-badge--not-started {
+    @apply bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400;
+  }
+
+  .state-badge--in-progress {
+    @apply bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300;
+  }
+
+  .state-badge--practicing {
+    @apply bg-amber-50 text-amber-700 dark:bg-amber-950 dark:text-amber-300;
+  }
+
+  .state-badge--mastered {
+    @apply bg-green-50 text-green-800 dark:bg-green-950 dark:text-green-300;
+  }
+
+  /* Progress trail track line */
+  .trail-track {
+    @apply relative before:absolute before:left-3.5 before:top-0 before:bottom-0 before:w-px before:border-l-2 before:border-dashed before:border-border;
+  }
+
+  /* Sidebar nav item */
+  .nav-item {
+    @apply flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-muted-foreground
+           transition-colors hover:bg-secondary hover:text-foreground;
+  }
+
+  .nav-item--active {
+    @apply bg-primary/10 text-primary font-semibold;
+  }
+
+  /* Card — flat planner style */
+  .planner-card {
+    @apply bg-card border border-border rounded-lg p-4 shadow-ink-sm;
+  }
+
+  /* Streak display */
+  .streak-flame {
+    @apply text-accent font-mono font-bold;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   ANIMATIONS (reduced-motion respectful)
+────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Mastered state celebration animation */
+.mastered-transition {
+  animation: mastered-pop 0.4s ease-in-out;
+}
+
+/* Page fade-in */
+.page-enter {
+  animation: fade-in 0.2s ease-out;
+}
+
+/* ─────────────────────────────────────────────
+   RECHARTS OVERRIDES (brand palette)
+────────────────────────────────────────────── */
+
+.recharts-cartesian-grid line {
+  stroke: hsl(var(--border));
+}
+
+.recharts-text {
+  fill: hsl(var(--muted-foreground));
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px;
+}
+
+.recharts-legend-item-text {
+  color: hsl(var(--foreground)) !important;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 12px;
+}
+
+.recharts-tooltip-wrapper .recharts-default-tooltip {
+  background: hsl(var(--card)) !important;
+  border: 1px solid hsl(var(--border)) !important;
+  border-radius: var(--radius) !important;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1) !important;
+}
